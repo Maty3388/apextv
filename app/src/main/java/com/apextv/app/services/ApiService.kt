@@ -18,6 +18,7 @@ object ApiService {
     var token = ""
     var subEnd = ""
     var loginError = ""
+    var userRole = ""
     var appContext: android.content.Context? = null
 
     private const val CACHE_NAME = "apex_cache"
@@ -54,6 +55,7 @@ object ApiService {
         val res = client.newCall(Request.Builder().url("$BASE/auth/login").post(body).build()).execute()
         val json = JSONObject(res.body?.string() ?: return null)
         loginError = json.optString("error", "")
+        userRole = json.optJSONObject("user")?.optString("role", "client") ?: "client"
         subEnd = json.optJSONObject("user")?.optString("subscription_end") ?: ""
         return json.optString("token").takeIf { it.isNotEmpty() }
     }
@@ -174,6 +176,83 @@ object ApiService {
                 .header("Authorization", "Bearer $token").put(body).build()).execute()
             JSONObject(res.body?.string() ?: "{}")
         } catch (_: Exception) { JSONObject() }
+    }
+
+
+    fun getAdminUsers(): List<org.json.JSONObject> {
+        return try {
+            val res = client.newCall(Request.Builder().url("$BASE/admin/users")
+                .header("Authorization", "Bearer $token").build()).execute()
+            val json = org.json.JSONObject(res.body?.string() ?: return emptyList())
+            val arr = json.optJSONArray("users") ?: return emptyList()
+            (0 until arr.length()).map { arr.getJSONObject(it) }
+        } catch (_: Exception) { emptyList() }
+    }
+
+    fun getAdminStats(): org.json.JSONObject {
+        return try {
+            val res = client.newCall(Request.Builder().url("$BASE/admin/stats")
+                .header("Authorization", "Bearer $token").build()).execute()
+            org.json.JSONObject(res.body?.string() ?: "{}")
+        } catch (_: Exception) { org.json.JSONObject() }
+    }
+
+    fun getAdminCredits(): org.json.JSONObject {
+        return try {
+            val res = client.newCall(Request.Builder().url("$BASE/admin/credits")
+                .header("Authorization", "Bearer $token").build()).execute()
+            org.json.JSONObject(res.body?.string() ?: "{}")
+        } catch (_: Exception) { org.json.JSONObject() }
+    }
+
+    fun createAdminUser(email: String, password: String, role: String, subEnd: String, notes: String): org.json.JSONObject {
+        return try {
+            val body = org.json.JSONObject()
+            body.put("email", email).put("password", password).put("role", role)
+            if (subEnd.isNotEmpty()) body.put("subscription_end", subEnd)
+            if (notes.isNotEmpty()) body.put("notes", notes)
+            val res = client.newCall(Request.Builder().url("$BASE/admin/users")
+                .header("Authorization", "Bearer $token")
+                .post(body.toString().toRequestBody("application/json".toMediaType())).build()).execute()
+            org.json.JSONObject(res.body?.string() ?: "{}")
+        } catch (_: Exception) { org.json.JSONObject() }
+    }
+
+    fun editAdminUser(id: String, body: org.json.JSONObject): org.json.JSONObject {
+        return try {
+            val res = client.newCall(Request.Builder().url("$BASE/admin/users/$id")
+                .header("Authorization", "Bearer $token")
+                .put(body.toString().toRequestBody("application/json".toMediaType())).build()).execute()
+            org.json.JSONObject(res.body?.string() ?: "{}")
+        } catch (_: Exception) { org.json.JSONObject() }
+    }
+
+    fun deleteAdminUser(id: String): org.json.JSONObject {
+        return try {
+            val res = client.newCall(Request.Builder().url("$BASE/admin/users/$id")
+                .header("Authorization", "Bearer $token").delete().build()).execute()
+            org.json.JSONObject(res.body?.string() ?: "{}")
+        } catch (_: Exception) { org.json.JSONObject() }
+    }
+
+    fun renewAdminUser(id: String, days: Int): org.json.JSONObject {
+        return try {
+            val body = org.json.JSONObject().put("days", days)
+            val res = client.newCall(Request.Builder().url("$BASE/admin/users/$id/renew")
+                .header("Authorization", "Bearer $token")
+                .put(body.toString().toRequestBody("application/json".toMediaType())).build()).execute()
+            org.json.JSONObject(res.body?.string() ?: "{}")
+        } catch (_: Exception) { org.json.JSONObject() }
+    }
+
+    fun assignCredits(userId: String, credits: Int): org.json.JSONObject {
+        return try {
+            val body = org.json.JSONObject().put("userId", userId).put("credits", credits)
+            val res = client.newCall(Request.Builder().url("$BASE/admin/credits")
+                .header("Authorization", "Bearer $token")
+                .put(body.toString().toRequestBody("application/json".toMediaType())).build()).execute()
+            org.json.JSONObject(res.body?.string() ?: "{}")
+        } catch (_: Exception) { org.json.JSONObject() }
     }
 
     fun getVersion(): AppVersion? {

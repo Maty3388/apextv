@@ -22,6 +22,8 @@ object Prefs {
         return id
     }
 
+    fun saveRole(ctx: Context, r: String) = ctx.getSharedPreferences(NAME, Context.MODE_PRIVATE).edit().putString("role", r).apply()
+    fun getRole(ctx: Context) = ctx.getSharedPreferences(NAME, Context.MODE_PRIVATE).getString("role", "client") ?: "client"
     fun isLoggedIn(ctx: Context) = getToken(ctx).isNotEmpty()
 
     fun saveProfileSelected(ctx: Context) = ctx.getSharedPreferences(NAME, Context.MODE_PRIVATE).edit().putBoolean("profile_selected", true).apply()

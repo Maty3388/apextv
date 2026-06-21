@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 Prefs.saveToken(this@LoginActivity, token)
                 Prefs.saveEmail(this@LoginActivity, email)
                 Prefs.saveSubEnd(this@LoginActivity, ApiService.subEnd)
+                Prefs.saveRole(this@LoginActivity, ApiService.userRole)
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()
             } else {

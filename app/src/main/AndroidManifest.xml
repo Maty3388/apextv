@@ -34,6 +34,8 @@
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".activities.VodActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".activities.AdminActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".activities.DetailActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".activities.SearchActivity"
