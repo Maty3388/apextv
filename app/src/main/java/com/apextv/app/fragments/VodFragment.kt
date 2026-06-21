@@ -6,7 +6,6 @@ import androidx.leanback.widget.*
 import com.bumptech.glide.Glide
 import com.apextv.app.activities.DetailActivity
 import com.apextv.app.activities.VodActivity
-import com.apextv.app.activities.DetailActivity
 import com.apextv.app.models.Movie
 import com.apextv.app.models.Serie
 import com.apextv.app.services.ApiService
@@ -14,7 +13,7 @@ import kotlinx.coroutines.*
 
 class VodFragment : RowsSupportFragment() {
     private val scope = CoroutineScope(Dispatchers.Main)
-    private var type = VodActivity.TYPE_MOVIES
+    private var type = "movies"
     var onCategoriesLoaded: ((List<Pair<String, Int>>) -> Unit)? = null
     var onLoaded: (() -> Unit)? = null
 
@@ -43,7 +42,7 @@ class VodFragment : RowsSupportFragment() {
             val rowsAdapter = ArrayObjectAdapter(ListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL).apply {
                 shadowEnabled = false; selectEffectEnabled = false
             })
-            if (type == VodActivity.TYPE_MOVIES) {
+            if (type == "movies") {
                 val movies = withContext(Dispatchers.IO) {
                     try { ApiService.getMovies() } catch (_: Exception) { emptyList() }
                 }

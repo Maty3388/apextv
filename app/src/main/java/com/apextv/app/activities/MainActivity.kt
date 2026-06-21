@@ -63,14 +63,14 @@ class MainActivity : AppCompatActivity() {
             mainFragment?.filterCategory(null)
         }
         findViewById<View>(R.id.navPeliculas).setOnClickListener {
-            startActivity(Intent(this, VodActivity::class.java).apply {
-                putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_MOVIES)
-            })
+            val i = Intent(this, VodActivity::class.java)
+            i.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_MOVIES)
+            startActivity(i)
         }
         findViewById<View>(R.id.navSeries).setOnClickListener {
-            startActivity(Intent(this, VodActivity::class.java).apply {
-                putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_SERIES)
-            })
+            val i = Intent(this, VodActivity::class.java)
+            i.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_SERIES)
+            startActivity(i)
         }
         findViewById<View>(R.id.navBuscar).setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
@@ -186,7 +186,7 @@ class MainActivity : AppCompatActivity() {
                 scope.launch {
                     try {
                         val res = withContext(Dispatchers.IO) { ApiService.verifyParentalPin(pin) }
-                        if (res.optBoolean("success", false)) {
+                        if (res.optBoolean("success")) {
                             dialog.dismiss(); onSuccess()
                         } else {
                             dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE).isEnabled = true
