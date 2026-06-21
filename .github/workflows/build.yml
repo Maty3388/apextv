@@ -22,6 +22,12 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Set Gradle version
+        run: |
+          cd gradle/wrapper
+          sed -i 's|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-8.6-bin.zip|' gradle-wrapper.properties
+          cat gradle-wrapper.properties
+
       - name: Build APK
         run: ./gradlew assembleRelease
 
