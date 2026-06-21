@@ -81,19 +81,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showMoreMenu() {
-        val options = arrayOf("👤 Mi Cuenta", "🔒 Adultos", "⭐ Favoritos", "🗑️ Borrar Caché", "🚪 Cerrar Sesión")
+        val role = Prefs.getRole(this)
+        val isAdmin = role in listOf("admin", "distribuidor", "super_reseller", "reseller")
+        val options = if (isAdmin)
+            arrayOf("👤 Mi Cuenta", "🔒 Adultos", "⭐ Favoritos", "🗑️ Borrar Caché", "⚙️ Panel Admin", "🚪 Cerrar Sesión")
+        else
+            arrayOf("👤 Mi Cuenta", "🔒 Adultos", "⭐ Favoritos", "🗑️ Borrar Caché", "🚪 Cerrar Sesión")
+
         android.app.AlertDialog.Builder(this)
             .setTitle("Más opciones")
             .setItems(options) { _, which ->
-                when (which) {
-                    0 -> startActivity(Intent(this, AccountActivity::class.java))
-                    1 -> showPinDialog { mainFragment?.filterCategory("ADULTOS") }
-                    2 -> mainFragment?.loadFavorites()
-                    3 -> { cacheDir.listFiles()?.forEach { it.deleteRecursively() }
-                           Toast.makeText(this, "Caché borrado", Toast.LENGTH_SHORT).show() }
-                    4 -> { Prefs.logout(this)
-                           startActivity(Intent(this, LoginActivity::class.java))
-                           finishAffinity() }
+                if (isAdmin) {
+                    when (which) {
+                        0 -> startActivity(Intent(this, AccountActivity::class.java))
+                        1 -> showPinDialog { mainFragment?.filterCategory("ADULTOS") }
+                        2 -> mainFragment?.loadFavorites()
+                        3 -> { cacheDir.listFiles()?.forEach { it.deleteRecursively() }
+                               Toast.makeText(this, "Caché borrado", Toast.LENGTH_SHORT).show() }
+                        4 -> startActivity(Intent(this, AdminActivity::class.java))
+                        5 -> { Prefs.logout(this)
+                               startActivity(Intent(this, LoginActivity::class.java))
+                               finishAffinity() }
+                    }
+                } else {
+                    when (which) {
+                        0 -> startActivity(Intent(this, AccountActivity::class.java))
+                        1 -> showPinDialog { mainFragment?.filterCategory("ADULTOS") }
+                        2 -> mainFragment?.loadFavorites()
+                        3 -> { cacheDir.listFiles()?.forEach { it.deleteRecursively() }
+                               Toast.makeText(this, "Caché borrado", Toast.LENGTH_SHORT).show() }
+                        4 -> { Prefs.logout(this)
+                               startActivity(Intent(this, LoginActivity::class.java))
+                               finishAffinity() }
+                    }
                 }
             }.show()
     }
