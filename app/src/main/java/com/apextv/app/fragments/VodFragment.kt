@@ -6,6 +6,7 @@ import androidx.leanback.widget.*
 import com.bumptech.glide.Glide
 import com.apextv.app.activities.DetailActivity
 import com.apextv.app.activities.VodActivity
+import com.apextv.app.activities.DetailActivity
 import com.apextv.app.models.Movie
 import com.apextv.app.models.Serie
 import com.apextv.app.services.ApiService

@@ -38,6 +38,8 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".activities.SearchActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".activities.AccountActivity"
+            android:screenOrientation="landscape"/>
 
     </application>
 </manifest>
