@@ -11,6 +11,8 @@ import com.apextv.app.BuildConfig
 import com.apextv.app.R
 import com.apextv.app.databinding.ActivityMainBinding
 import com.apextv.app.fragments.MainFragment
+import com.apextv.app.activities.VodActivity
+import com.apextv.app.activities.AccountActivity
 import com.apextv.app.services.ApiService
 import com.apextv.app.utils.AutoUpdater
 import com.apextv.app.utils.DeviceUtils
@@ -63,14 +65,14 @@ class MainActivity : AppCompatActivity() {
             mainFragment?.filterCategory(null)
         }
         findViewById<View>(R.id.navPeliculas).setOnClickListener {
-            val i = Intent(this, VodActivity::class.java)
-            i.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_MOVIES)
-            startActivity(i)
+            val i2 = Intent(this, VodActivity::class.java)
+            i2.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_MOVIES)
+            startActivity(i2)
         }
         findViewById<View>(R.id.navSeries).setOnClickListener {
-            val i = Intent(this, VodActivity::class.java)
-            i.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_SERIES)
-            startActivity(i)
+            val i2 = Intent(this, VodActivity::class.java)
+            i2.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_SERIES)
+            startActivity(i2)
         }
         findViewById<View>(R.id.navBuscar).setOnClickListener {
             startActivity(Intent(this, SearchActivity::class.java))
@@ -99,14 +101,14 @@ class MainActivity : AppCompatActivity() {
     private fun setupSidebar() {
         binding.btnTv.setOnClickListener { mainFragment?.filterCategory(null) }
         binding.btnPeliculas.setOnClickListener {
-            startActivity(Intent(this, VodActivity::class.java).apply {
-                putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_MOVIES)
-            })
+            val i = Intent(this, VodActivity::class.java)
+            i.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_MOVIES)
+            startActivity(i)
         }
         binding.btnSeries.setOnClickListener {
-            startActivity(Intent(this, VodActivity::class.java).apply {
-                putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_SERIES)
-            })
+            val i = Intent(this, VodActivity::class.java)
+            i.putExtra(VodActivity.EXTRA_TYPE, VodActivity.TYPE_SERIES)
+            startActivity(i)
         }
         binding.btnAdultos.setOnClickListener { showPinDialog { mainFragment?.filterCategory("ADULTOS") } }
         binding.btnBuscar.setOnClickListener { startActivity(Intent(this, SearchActivity::class.java)) }
