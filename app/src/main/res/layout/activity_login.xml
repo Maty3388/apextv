@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/background" android:orientation="horizontal">
+
+    <!-- Left branding -->
+    <LinearLayout android:layout_width="0dp" android:layout_height="match_parent"
+        android:layout_weight="1" android:gravity="center" android:orientation="vertical">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="APEX" android:textColor="@color/primary"
+            android:textSize="72sp" android:textStyle="bold"
+            android:fontFamily="serif" android:letterSpacing="-0.05"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="TV" android:textColor="@color/text_primary"
+            android:textSize="24sp" android:letterSpacing="0.3"/>
+
+        <View android:layout_width="60dp" android:layout_height="2dp"
+            android:background="@color/primary" android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="TU UNIVERSO PREMIUM" android:textColor="@color/text_secondary"
+            android:textSize="11sp" android:letterSpacing="0.2"/>
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View android:layout_width="1dp" android:layout_height="match_parent"
+        android:background="@color/border"/>
+
+    <!-- Right form -->
+    <LinearLayout android:layout_width="0dp" android:layout_height="match_parent"
+        android:layout_weight="1" android:gravity="center" android:orientation="vertical"
+        android:padding="48dp">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Bienvenido" android:textColor="@color/text_primary"
+            android:textSize="24sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Ingresá tus credenciales" android:textColor="@color/text_secondary"
+            android:textSize="13sp" android:layout_marginBottom="32dp"/>
+
+        <EditText android:id="@+id/etEmail"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:hint="Correo electrónico" android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_hint" android:textSize="15sp"
+            android:background="@color/surface2" android:paddingHorizontal="16dp"
+            android:inputType="textEmailAddress" android:layout_marginBottom="12dp"/>
+
+        <EditText android:id="@+id/etPassword"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:hint="Contraseña" android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_hint" android:textSize="15sp"
+            android:background="@color/surface2" android:paddingHorizontal="16dp"
+            android:inputType="textPassword" android:layout_marginBottom="8dp"/>
+
+        <TextView android:id="@+id/tvError"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textColor="@color/error" android:textSize="12sp"
+            android:layout_marginBottom="16dp" android:visibility="gone"/>
+
+        <Button android:id="@+id/btnLogin"
+            android:layout_width="match_parent" android:layout_height="52dp"
+            android:text="INGRESAR" android:textColor="@color/background"
+            android:textStyle="bold" android:backgroundTint="@color/primary"
+            android:letterSpacing="0.1" android:focusable="true"/>
+
+        <ProgressBar android:id="@+id/progressBar"
+            android:layout_width="40dp" android:layout_height="40dp"
+            android:layout_marginTop="16dp" android:visibility="gone"
+            android:indeterminateTint="@color/primary"/>
+    </LinearLayout>
+</LinearLayout>
